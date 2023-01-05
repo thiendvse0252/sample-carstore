@@ -1,16 +1,31 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using car_gallery_app.Models;
+using car_gallery_app.Services;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace car_gallery_app.Controllers {
     public class UsersController : Controller {
+        private readonly UserService userService;
+
+        public UsersController(UserService userService) {
+            this.userService = userService;
+        }
         // GET: UsersController
         public ActionResult Index() {
-            return View();
+            return View(userService.Get());
         }
 
-        // GET: UsersController/Details/5
-        public ActionResult Details(int id) {
-            return View();
+        // GET: UsersController/Details/uid
+        public ActionResult Details(string id) {
+            if(id == null) {
+                return NotFound();
+            }
+
+            var user = userService.Get(id);
+            if(user == null) {
+                return NotFound();
+            }
+            return View(user);
         }
 
         // GET: UsersController/Create
@@ -21,40 +36,64 @@ namespace car_gallery_app.Controllers {
         // POST: UsersController/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create(IFormCollection collection) {
-            try {
+        public IActionResult Create(User user) {
+            if (ModelState.IsValid) {
+                userService.Create(user);
                 return RedirectToAction(nameof(Index));
-            } catch {
-                return View();
+            }
+            return View(user);
+        }
+
+        // GET: UsersController/Edit/uid
+        public ActionResult Edit(string id) {
+            if(id == null) {
+                return NotFound();
+            }
+
+            var user = userService.Get(id);
+            if(user == null) {
+                return NotFound();
+            }
+            return View(user);
+        }
+
+        // POST: UsersController/Edit/uid
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult Edit(string id, User user) {
+            if(id != user.Id) {
+                return NotFound();
+            }
+            if (ModelState.IsValid) {
+                userService.Update(id, user);
+                return RedirectToAction(nameof(Index));
+            } else {
+                return View(user);
             }
         }
 
-        // GET: UsersController/Edit/5
-        public ActionResult Edit(int id) {
-            return View();
-        }
-
-        // POST: UsersController/Edit/5
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Edit(int id, IFormCollection collection) {
-            try {
-                return RedirectToAction(nameof(Index));
-            } catch {
-                return View();
+        // GET: UsersController/Delete/uid
+        public ActionResult Delete(string id) {
+            if(id == null) {
+                return NotFound();
             }
+            var user = userService.Get(id);
+            if(user == null) {
+                return NotFound();
+            }
+            return View(user);
         }
 
-        // GET: UsersController/Delete/5
-        public ActionResult Delete(int id) {
-            return View();
-        }
-
-        // POST: UsersController/Delete/5
-        [HttpPost]
+        // POST: UsersController/Delete/uid
+        [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
-        public ActionResult Delete(int id, IFormCollection collection) {
+        public ActionResult DeleteConfirmed(string id) {
             try {
+                var user = userService.Get(id);
+                if(user == null) {
+                    return NotFound();
+                }
+                userService.Remove(user.Id);
                 return RedirectToAction(nameof(Index));
             } catch {
                 return View();

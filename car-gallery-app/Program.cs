@@ -6,6 +6,12 @@ var builder = WebApplication.CreateBuilder(args);
 // Add services to the container.
 builder.Services.AddControllersWithViews();
 builder.Services.AddScoped<CarService>();
+
+builder.Services.AddControllersWithViews();
+builder.Services.AddScoped<UserService>();
+
+builder.Services.AddControllersWithViews();
+builder.Services.AddScoped<CartService>();
 //builder.Services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
 
 var app = builder.Build();

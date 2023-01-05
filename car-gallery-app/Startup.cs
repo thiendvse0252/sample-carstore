@@ -13,6 +13,8 @@ namespace car_gallery_app {
             });
 
             services.AddScoped<CarService>();
+            services.AddScoped<UserService>();
+            services.AddScoped<CartService>();
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
         }
     }

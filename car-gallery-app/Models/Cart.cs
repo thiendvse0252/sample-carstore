@@ -9,19 +9,19 @@ namespace car_gallery_app.Models {
         [BsonRepresentation(BsonType.ObjectId)]
         public string Id { get; set; }
 
-        [BsonElement("carId")]
+        [BsonElement("CarId")]
         [Display(Name = "Car ID")]
         public string CarId { get; set; }
 
-        [BsonElement("userId")]
+        [BsonElement("UserId")]
         [Display(Name = "User ID")]
         public string UserId { get; set; }
 
-        [BsonElement("total")]
+        [BsonElement("Total")]
         [Display(Name = "Total")]
         public decimal Total { get; set; }
 
-        [BsonElement("quantity")]
+        [BsonElement("Quantity")]
         [Display(Name = "Quantity")]
         public int Quantity { get; set; }
     }

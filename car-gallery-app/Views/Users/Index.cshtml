@@ -1,0 +1,57 @@
+﻿@model IEnumerable<car_gallery_app.Models.User>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1>Manage accounts</h1>
+
+<p>
+    <a asp-action="Create">Create New Accounts</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.ImageUrl)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Password)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.FullName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.State)
+            </th>
+            
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @if (item.ImageUrl != null) {
+                    <img style="max-width: 10%; height: auto;" src="@Url.Content(item.ImageUrl)" alt="Image" />
+                }
+            </td>
+
+            <td>
+                @Html.DisplayFor(modelItem => item.Password)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.FullName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.State)
+            </td>
+            <td>
+                @Html.ActionLink("Edit", "Edit", new { id=item.Id }) |
+                @Html.ActionLink("Details", "Details", new { id=item.Id }) |
+                @Html.ActionLink("Delete", "Delete", new { id=item.Id })
+            </td>
+        </tr>
+}
+    </tbody>
+</table>
